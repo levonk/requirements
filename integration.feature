@@ -13,7 +13,7 @@ Feature: System Integration
   Scenario: Messages should be stored
     Given Queue "X" is set up in a Virtual Private Cloud (VPC)
     When data is submitted into "X"
-    Then a subscriber should be able to consume the events and persist them in partitioned files (e.g. Avro by day) for archival in low cost storage.
+    Then a consumer should be able to consume the events and persist them in partitioned files (e.g. Avro by day) for archival in low cost storage.
   
   @NonFunctional
   Scenario: Segment data by security
@@ -45,7 +45,7 @@ Feature: System Integration
     Given A queue "X" is set up
     And A topic "T" exists
     And A publisher "Y" exists publishing events to "T"
-    And A subscriber "Z" subscribes to topic "T"
+    And A consumer "Z" consumes from topic "T"
     And "X", "Y" and "Z" all are in the same VPC
     When "Y" publishes data "A" into "T"
     Then "Z" receives "A" within 100ms
@@ -55,7 +55,7 @@ Feature: System Integration
     Given A queue "X" is set up
     And a topic "T" exists
     And a publisher "Y" exists publishing events to "T"
-    And a subscriber "Z" subscribes to topic "T"
+    And a consumer "Z" consumes from topic "T"
     And "X", "Y" and "Z" all are in the same VPC
     And "Z" is successfully consuming events from "Y" via "X"
     When "Y" is swapped out for a new system "Y'"
@@ -107,7 +107,7 @@ Feature: System Integration
   #@Question
   #Scenario: Complex data message routing to consumers
     # Not sure what's being asked here
-    # if there needs to be something complex (like a transform) then something can be built outside of the queue to transform that data, all consumers/subscribers should strive to standardize on a single format (e.g. Avro)
+    # if there needs to be something complex (like a transform) then something can be built outside of the queue to transform that data, all consumers should strive to standardize on a single format (e.g. Avro)
 
   @Question
   Scenario: Work around for per message receipt acknowledgement
@@ -123,7 +123,7 @@ Feature: System Integration
   @Question
   Scenario: filter on messages
     Given that a consumer needs filtered messages
-    Then a seperate system should subscribe to the raw top and republish a dervied or aggregated topic for the benefit of the consumers that need the refined data
+    Then a seperate system should consume from the less refined topic and republish a dervied or aggregated topic for the benefit of the consumers that need the refined data
   
   @Question
   Scenario: Query on messages
